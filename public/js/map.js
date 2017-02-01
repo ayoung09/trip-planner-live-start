@@ -54,6 +54,7 @@ function initializeMap (){
       position: latLng
     });
     marker.setMap(currentMap);
+    return marker;
   }
 
   // drawMarker('hotel', [40.705137, -74.007624]);

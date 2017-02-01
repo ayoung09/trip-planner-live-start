@@ -29,9 +29,9 @@ $(document).ready(function(){
        let hotelObj = dayCollection[currentDay].hotel;
 
        if(!Object.keys(hotelObj).length){
-            hotelObj[hotelName] = selectedHotel;
-           drawMarker('hotel', selectedHotel.place.location);
-           $('#hotel-list').text(selectedHotel.name);
+        let marker = drawMarker('hotel', selectedHotel.place.location);
+        hotelObj[hotelName] = [selectedHotel, marker];
+        $('#hotel-list').text(selectedHotel.name);
        }
     });
 
@@ -44,9 +44,9 @@ $(document).ready(function(){
       let restaurantObj = dayCollection[currentDay].restaurants;
 
       if(Object.keys(restaurantObj).length < 3 && !restaurantObj.hasOwnProperty(restaurantName)) {
-        restaurantObj[restaurantName] = selectedRestaurant;
-        $('#restaurant-list').append('<li>' + restaurantName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
-        drawMarker('restaurant', selectedRestaurant.place.location);
+        let marker = drawMarker('restaurant', selectedRestaurant.place.location)
+        restaurantObj[restaurantName] = [selectedRestaurant, marker];
+        $('#restaurant-list').append('<li>' + restaurantName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');;
       }
     });
 
@@ -59,9 +59,10 @@ $(document).ready(function(){
       let activityObj = dayCollection[currentDay].activities;
 
       if(Object.keys(activityObj).length < 5 && !activityObj.hasOwnProperty(activityName)) {
-        activityObj[activityName] = selectedActivity;
+        let marker = drawMarker('activity', selectedActivity.place.location);
+        activityObj[activityName] = [selectedActivity, marker];
         $('#activity-list').append('<li>' + activityName + '</li>');
-        drawMarker('activity', selectedActivity.place.location);
+
       }
     });
 
