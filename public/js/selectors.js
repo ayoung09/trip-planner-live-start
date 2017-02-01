@@ -5,12 +5,6 @@ const Makeday = function(){
     this.activities = {};
 }
 
-
-this.hotel = {
-    Fancyhotel: [hotelJOb, marker]
-}
-
-
 Makeday.prototype.addHotel = function(hotelObj, marker){
     this.hotel[hotelObj.name] = [hotelObj, marker];
 };
@@ -28,27 +22,22 @@ Makeday.prototype.removeMaker = function(name,type ) {
 
 }
 
-
-
 var dayOne = new Makeday();
 
-dayOne.removeMaker(restaurant[capitalGrill])
-
+var currentDay = dayOne;   //pointer
 
 $(document).ready(function(){
-
 //hotels
     $('#add-hotel').click(function() {
        let hotelIndex = $('#hotel-choices option:selected').val() - 1;
-       let selectedHotel = hotels[hotelIndex];
-       let hotelName = selectedHotel.name;
-       let hotelObj = dayCollection[currentDay].hotel;
+       let selectedHotel = hotels[hotelIndex];  // this gets all the obj data, from selected
 
-       if(!Object.keys(hotelObj).length){
+       if(!Object.keys(currentDay.hotel).length){
         let marker = drawMarker('hotel', selectedHotel.place.location);
-        hotelObj[hotelName] = [selectedHotel, marker];
-        $('#hotel-list').append( '<li>' + hotelName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
+        currentDay.addHotel(selectedHotel,marker);
+        $('#hotel-list').append( '<li>' + selectedHotel.name + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
        }
+
     });
 
 
