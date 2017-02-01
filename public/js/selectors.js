@@ -1,19 +1,19 @@
 // var map = require('./map.js')
 let dayCollection = {
   'day1': {
-    'hotel': [],
-    'restaurants': [],
-    'activities': []
+    'hotel': {},
+    'restaurants': {},
+    'activities': {}
   },
   'day2': {
-    'hotel': [],
-    'restaurants': [],
-    'activities': []
+    'hotel': {},
+    'restaurants': {},
+    'activities': {}
   },
   'day3': {
-    'hotel': [],
-    'restaurants': [],
-    'activities': []
+    'hotel': {},
+    'restaurants': {},
+    'activities': {}
   }
 };
 
@@ -21,43 +21,46 @@ var currentDay = 'day1';
 
 $(document).ready(function(){
 
+//hotels
     $('#add-hotel').click(function() {
        let hotelIndex = $('#hotel-choices option:selected').val() - 1;
        let selectedHotel = hotels[hotelIndex];
        let hotelName = selectedHotel.name;
-       let hotelArray = dayCollection[currentDay].hotel;
+       let hotelObj = dayCollection[currentDay].hotel;
 
-       if(!hotelArray.length){
-            hotelArray.push(selectedHotel);
+       if(!Object.keys(hotelObj).length){
+            hotelObj[hotelName] = selectedHotel;
            drawMarker('hotel', selectedHotel.place.location);
            $('#hotel-list').text(selectedHotel.name);
        }
     });
 
+
+//restaurants
     $('#add-restaurant').click(function() {
       let restaurantIndex = $('#restaurant-choices option:selected').val() -1;
       let selectedRestaurant = restaurants[restaurantIndex];
       let restaurantName = selectedRestaurant.name;
-      let restaurantArray = dayCollection[currentDay].restaurants;
+      let restaurantObj = dayCollection[currentDay].restaurants;
 
-
-      if(restaurantArray.length < 3) {
-        restaurantArray.push(selectedRestaurant);
+      if(Object.keys(restaurantObj).length < 3 && !restaurantObj.hasOwnProperty(restaurantName)) {
+        restaurantObj[restaurantName] = selectedRestaurant;
         $('#restaurant-list').append('<li>' + restaurantName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
         drawMarker('restaurant', selectedRestaurant.place.location);
       }
     });
 
 
+//activities
     $('#add-activity').click(function() {
       let activityIndex = $('#activity-choices option:selected').val() -1;
       let selectedActivity = activities[activityIndex];
       let activityName = selectedActivity.name;
-      let actvityArray = dayCollection[currentDay].activities;
+      let activityObj = dayCollection[currentDay].activities;
 
-      if(actvityArray.length < 5) {
-        actvityArray.push(selectedActivity);
-        $('#activity-list').append('<li>' + activities[activityIndex].name + '</li>');
+      if(Object.keys(activityObj).length < 5 && !activityObj.hasOwnProperty(activityName)) {
+        activityObj[activityName] = selectedActivity;
+        $('#activity-list').append('<li>' + activityName + '</li>');
         drawMarker('activity', selectedActivity.place.location);
       }
     });
