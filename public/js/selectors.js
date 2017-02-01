@@ -77,9 +77,12 @@ $(document).ready(function(){
     });
 
     $( "#restaurant-list" ).on( "click", "button", function( event ) {
-    var removedName = $(this).prev()[0].innerHTML;
+    var removeObj = $(this).prev()[0];
+    var removedName = removeObj.innerHTML;
     let removeMarker = currentDay.restaurants[removedName][1];
     removeMarker.setMap(null);
+    (removeObj).remove();
+    $(event.target).remove();
     currentDay.removeRestaurant(removedName);
   });
 
@@ -93,14 +96,17 @@ $(document).ready(function(){
       if(Object.keys(activityObj).length < 5 && !activityObj.hasOwnProperty(selectedActivity.name)) {
         let marker = drawMarker('activity', selectedActivity.place.location);
         currentDay.addActivities(selectedActivity, marker);
-        $('#activity-list').append('<li>' + selectedActivity.name + '</li>');
+        $('#activity-list').append('<li>' + selectedActivity.name + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
       }
     });
 
-    $("#activities-list").on( "click", "button", function( event ) {
-      var removedName = $(this).prev()[0].innerHTML;
+    $("#activity-list").on( "click", "button", function( event ) {
+      var removeObj = $(this).prev()[0];
+      var removedName = removeObj.innerHTML;
       let removeMarker = currentDay.activities[removedName][1];
       removeMarker.setMap(null);
+      (removeObj).remove();
+      $(event.target).remove();
       currentDay.removeActivity(removedName);
     });
 
