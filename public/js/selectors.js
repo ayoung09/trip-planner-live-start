@@ -1,23 +1,39 @@
 // var map = require('./map.js')
-let dayCollection = {
-  'day1': {
-    'hotel': {},
-    'restaurants': {},
-    'activities': {}
-  },
-  'day2': {
-    'hotel': {},
-    'restaurants': {},
-    'activities': {}
-  },
-  'day3': {
-    'hotel': {},
-    'restaurants': {},
-    'activities': {}
-  }
+const Makeday = function(){
+    this.hotel = {};
+    this.restaurants = {};
+    this.activities = {};
+}
+
+
+this.hotel = {
+    Fancyhotel: [hotelJOb, marker]
+}
+
+
+Makeday.prototype.addHotel = function(hotelObj, marker){
+    this.hotel[hotelObj.name] = [hotelObj, marker];
 };
 
-var currentDay = 'day1';
+Makeday.prototype.addRestaurant = function(resName, res, marker){
+    this.restaurants[resName] = [res, marker];
+};
+
+Makeday.prototype.addActivities = function(actName, act, marker){
+    this.activities[actName] = [act, marker];
+};
+
+Makeday.prototype.removeMaker = function(name,type ) {
+    var latlon = this[type][name].place.location;
+
+}
+
+
+
+var dayOne = new Makeday();
+
+dayOne.removeMaker(restaurant[capitalGrill])
+
 
 $(document).ready(function(){
 
@@ -31,7 +47,7 @@ $(document).ready(function(){
        if(!Object.keys(hotelObj).length){
         let marker = drawMarker('hotel', selectedHotel.place.location);
         hotelObj[hotelName] = [selectedHotel, marker];
-        $('#hotel-list').text(selectedHotel.name);
+        $('#hotel-list').append( '<li>' + hotelName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
        }
     });
 
@@ -46,9 +62,17 @@ $(document).ready(function(){
       if(Object.keys(restaurantObj).length < 3 && !restaurantObj.hasOwnProperty(restaurantName)) {
         let marker = drawMarker('restaurant', selectedRestaurant.place.location)
         restaurantObj[restaurantName] = [selectedRestaurant, marker];
-        $('#restaurant-list').append('<li>' + restaurantName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');;
+        $('#restaurant-list').append('<li>' + restaurantName + '</li><button class="btn btn-xs btn-danger remove btn-circle">x</button>');
       }
     });
+
+    $( "#restaurant-list" ).on( "click", "button", function( event ) {
+    //event.preventDefault();
+    var removedName = $(this).prev()[0].innerHTML;
+
+    //console.log( , "logging" );
+
+});
 
 
 //activities
