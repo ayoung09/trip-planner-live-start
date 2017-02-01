@@ -19,11 +19,18 @@ Makeday.prototype.addActivities = function(actObj, marker){
 
 Makeday.prototype.removeMaker = function(name, type ) {
     var latlon = this[type][name].place.location;
+};
 
+Makeday.prototype.removeHotel = function(hotelName) {
+  this.hotels = {};
 };
 
 Makeday.prototype.removeRestaurant = function(resName) {
   delete this.restaurants[resName];
+};
+
+Makeday.prototype.removeActivity = function(actName) {
+  delete this.activities[actName];
 };
 
 
@@ -45,6 +52,16 @@ $(document).ready(function(){
        }
     });
 
+    $("#hotel-list").on( "click", "button", function( event ) {
+      var removeObj = $(this).prev()[0];
+      var removedName = removeObj.innerHTML;
+      let removeMarker = currentDay.hotel[removedName][1];
+      removeMarker.setMap(null);
+      (removeObj).remove();
+      $(event.target).remove();
+      currentDay.removeHotel(removedName);
+    });
+
 
 //restaurants
     $('#add-restaurant').click(function() {
@@ -60,14 +77,11 @@ $(document).ready(function(){
     });
 
     $( "#restaurant-list" ).on( "click", "button", function( event ) {
-    //event.preventDefault();
     var removedName = $(this).prev()[0].innerHTML;
     let removeMarker = currentDay.restaurants[removedName][1];
     removeMarker.setMap(null);
     currentDay.removeRestaurant(removedName);
-    //console.log( , "logging" );
-
-});
+  });
 
 
 //activities
@@ -79,8 +93,15 @@ $(document).ready(function(){
       if(Object.keys(activityObj).length < 5 && !activityObj.hasOwnProperty(selectedActivity.name)) {
         let marker = drawMarker('activity', selectedActivity.place.location);
         currentDay.addActivities(selectedActivity, marker);
-        $('#activity-list').append('<li>' + activityName + '</li>');
+        $('#activity-list').append('<li>' + selectedActivity.name + '</li>');
       }
+    });
+
+    $("#activities-list").on( "click", "button", function( event ) {
+      var removedName = $(this).prev()[0].innerHTML;
+      let removeMarker = currentDay.activities[removedName][1];
+      removeMarker.setMap(null);
+      currentDay.removeActivity(removedName);
     });
 
 
